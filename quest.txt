@@ -1,0 +1,1 @@
+On a two-way north-south road, there is a narrow bridge that allows cars to pass in only one direction at a time. Synchronize the passage of cars from the south and north to avoid collisions and ensure that a car from each direction can eventually cross the bridge.
