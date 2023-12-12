@@ -22,7 +22,7 @@ public class BridgeController {
 
     @PostMapping
     public void addCar(@RequestBody CarAddRequest carRequest) {
-        var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), carRequest.getTimeMilliseconds());
+        var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), carRequest.getProcessingTime());
         //var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), ThreadLocalRandom.current().nextInt(1000, 10000 + 1));
         cars.add(car);
     }
