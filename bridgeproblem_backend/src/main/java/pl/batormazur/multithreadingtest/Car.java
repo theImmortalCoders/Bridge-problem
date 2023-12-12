@@ -1,17 +1,27 @@
 package pl.batormazur.multithreadingtest;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
 public class Car {
-    private String name;
+    private final String name;
     private State state;
-    private Source source;
-    private int processingTime;
+    private final Source source;
+    private final int processingTime;
+    private int position;
+
+    public Car(String name, State state, Source source, int processingTime) {
+        this.name = name;
+        this.state = state;
+        this.source = source;
+        this.processingTime = processingTime;
+    }
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }
