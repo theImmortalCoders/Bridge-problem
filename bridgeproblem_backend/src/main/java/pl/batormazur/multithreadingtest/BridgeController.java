@@ -20,7 +20,7 @@ public class BridgeController {
         return ResponseEntity.ok(cars);
     }
 
-    @PostMapping("/set-car")
+    @PostMapping("/add-car")
     public void addCar(@RequestBody CarAddRequest carRequest) {
         var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), carRequest.getProcessingTime());
         //var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), ThreadLocalRandom.current().nextInt(1000, 10000 + 1));
