@@ -2,14 +2,15 @@ package pl.batormazur.multithreadingtest;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.List;
+import java.util.Queue;
 
 @Service
 public class BridgeService {
     private static final Object lock = new Object();
-    private static List<Car> northQueue = new ArrayList<>();
-    private static List<Car> southQueue = new ArrayList<>();
+    private static Queue<Car> northQueue = new ArrayDeque<>();
+    private static Queue<Car> southQueue = new ArrayDeque<>();
     private static int carsOnBridge = 0;
 
     public void process(List<Car> cars) {
@@ -17,13 +18,10 @@ public class BridgeService {
         processQueue(cars, Source.SOUTH, southQueue);
     }
 
-    private void processQueue(List<Car> cars, Source source, List<Car> queue) {
+    private void processQueue(List<Car> cars, Source source, Queue<Car> queue) {
         cars.parallelStream()
                 .filter(car -> car.getState().equals(State.WAITING) && car.getSource().equals(source))
-                .forEach(car -> {
-                    queue.add(car);
-                    car.setPosition(queue.indexOf(car));
-                });
+                .forEach(queue::add);
         if (!queue.isEmpty()) {
             Thread carThread = new Thread(() -> crossBridge(source));
             carThread.start();
@@ -36,7 +34,7 @@ public class BridgeService {
     }
 
     private void crossBridge(Source direction) {
-        List<Car> currentQueue = (direction.equals(Source.NORTH)) ? northQueue : southQueue;
+        Queue<Car> currentQueue = (direction.equals(Source.NORTH)) ? northQueue : southQueue;
         while (!currentQueue.isEmpty()) {
             synchronized (lock) {
                 while (carsOnBridge > 0) {
@@ -46,7 +44,7 @@ public class BridgeService {
                         e.printStackTrace();
                     }
                 }
-                Car currentCar = currentQueue.remove(0);
+                Car currentCar = currentQueue.remove();
                 currentCar.setState(State.PROCESSING);
                 System.out.println(currentCar + " from " + direction + " is crossing the bridge.");
                 carsOnBridge++;
@@ -57,7 +55,6 @@ public class BridgeService {
                 }
                 carsOnBridge--;
                 currentCar.setState(State.PROCESSED);
-                //currentQueue.remove(currentCar);
                 System.out.println(currentCar + " from " + direction + " has crossed the bridge.");
                 lock.notifyAll();
             }
