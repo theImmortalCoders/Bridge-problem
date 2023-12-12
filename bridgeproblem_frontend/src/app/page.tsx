@@ -8,7 +8,12 @@ interface Car {
   state: string;
   source: string;
   processingTime: number;
-  position: number;
+}
+
+interface CarRequest {
+  name: string;
+  source: string;
+  processingTime: number;
 }
 
 const Home: React.FC = () => {
@@ -62,15 +67,15 @@ const Home: React.FC = () => {
   }, []);
 
   const handleAddCar = async (source: string) => {
-    const newCar: Car = {
+    const newCar: CarRequest = {
       name: "car",
-      state: "WAITING",
       source: source,
-      processingTime: 1000,
-      position: 0,
+      processingTime: 10000,
     };
 
     try {
+      console.log("Sending data:", JSON.stringify(newCar));
+
       await fetch("http://localhost:8080/api", {
         method: "POST",
         headers: {
@@ -78,8 +83,6 @@ const Home: React.FC = () => {
         },
         body: JSON.stringify(newCar),
       });
-
-      // Update the local state after successful API request
       fetchData();
     } catch (error) {
       console.error("Error adding car:", error);
