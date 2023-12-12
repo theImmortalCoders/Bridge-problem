@@ -15,12 +15,12 @@ public class BridgeController {
     private List<Car> cars;
     private final BridgeService bridgeService;
 
-    @GetMapping
+    @GetMapping("/get-cars")
     public ResponseEntity<List<Car>> getCars() {
         return ResponseEntity.ok(cars);
     }
 
-    @PostMapping
+    @PostMapping("/set-car")
     public void addCar(@RequestBody CarAddRequest carRequest) {
         var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), carRequest.getProcessingTime());
         //var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), ThreadLocalRandom.current().nextInt(1000, 10000 + 1));

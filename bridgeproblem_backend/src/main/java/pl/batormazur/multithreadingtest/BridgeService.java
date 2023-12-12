@@ -35,29 +35,27 @@ public class BridgeService {
 
     private void crossBridge(Source direction) {
         Queue<Car> currentQueue = (direction.equals(Source.NORTH)) ? northQueue : southQueue;
-        while (!currentQueue.isEmpty()) {
-            synchronized (lock) {
-                while (carsOnBridge > 0) {
-                    try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Car currentCar = currentQueue.remove();
-                currentCar.setState(State.PROCESSING);
-                System.out.println(currentCar + " from " + direction + " is crossing the bridge.");
-                carsOnBridge++;
+        synchronized (lock) {
+            while (carsOnBridge > 0) {
                 try {
-                    Thread.sleep(currentCar.getProcessingTime());
+                    lock.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                carsOnBridge--;
-                currentCar.setState(State.PROCESSED);
-                System.out.println(currentCar + " from " + direction + " has crossed the bridge.");
-                lock.notifyAll();
             }
+            Car currentCar = currentQueue.remove();
+            currentCar.setState(State.PROCESSING);
+            System.out.println(currentCar + " from " + direction + " is crossing the bridge.");
+            carsOnBridge++;
+            try {
+                Thread.sleep(currentCar.getProcessingTime());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            carsOnBridge--;
+            currentCar.setState(State.PROCESSED);
+            System.out.println(currentCar + " from " + direction + " has crossed the bridge.");
+            lock.notifyAll();
         }
     }
 }
