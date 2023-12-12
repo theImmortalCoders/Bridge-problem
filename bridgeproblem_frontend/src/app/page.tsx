@@ -34,28 +34,36 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div style={{ position: "relative", height: "400px", width: "600px" }}>
-      <h1>waitingSouthCars {waitingSouthCars.length}</h1>
-      <h1>waitingNorthCars {waitingNorthCars.length}</h1>
-      <h1>processingCars {processingCars.length}</h1>
-      <h1>processedSouthCars {processedSouthCars.length}</h1>
-      <h1>processedNorthCars {processedNorthCars.length}</h1>
-      {travelTime !== null ? (
-        <h1>travelTime {travelTime}</h1>
-      ) : (
-        <h1>travelTime = 0</h1>
-      )}
-
-      <button onClick={handleAddCarNorth}>Dodaj car NORTH</button>
-      <button onClick={handleAddCarSouth}>Dodaj car SOUTH</button>
-
-      <ImageComponent
-        imagePath={RedCar}
-        position={{ top: 300, left: 100, rotation: 90 }}
-        size={{ width: 100, height: 100 }}
-        speed={5}
-      />
-    </div>
+    <>
+      <div className="grid grid-cols-3 gap-4 h-[20vh] w-[100vw]">
+        <div className="col-span-1 p-4">
+          <h1>waitingNorthCars {waitingNorthCars.length}</h1>
+          <h1>processedNorthCars {processedNorthCars.length}</h1>
+          <button onClick={handleAddCarNorth}>Dodaj car NORTH</button>
+        </div>
+        <div className="col-span-1 p-4">
+          <h1>processingCars {processingCars.length}</h1>
+          {travelTime !== null ? (
+            <h1>travelTime {travelTime}</h1>
+          ) : (
+            <h1>travelTime = 0</h1>
+          )}
+        </div>
+        <div className="col-span-1 p-4">
+          <h1>waitingSouthCars {waitingSouthCars.length}</h1>
+          <h1>processedSouthCars {processedSouthCars.length}</h1>
+          <button onClick={handleAddCarSouth}>Dodaj car SOUTH</button>
+        </div>
+      </div>
+      <div className="relative h-[80vh] w-[100vw]">
+        <ImageComponent
+          imagePath={RedCar}
+          position={{ top: 300, left: 0, rotation: 90 }}
+          size={{ width: 100, height: 100 }}
+          speed={5}
+        />
+      </div>
+    </>
   );
 };
 

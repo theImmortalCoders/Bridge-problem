@@ -14,8 +14,6 @@ export const useApiSending = () => {
     };
 
     try {
-      console.log("Sending data:", JSON.stringify(newCar));
-
       await fetch("http://localhost:8080/api/add-car", {
         method: "POST",
         headers: {
