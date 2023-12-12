@@ -8,10 +8,10 @@ import java.util.Queue;
 
 @Service
 public class BridgeService {
-    private static final Object lock = new Object();
-    private static Queue<Car> northQueue = new ArrayDeque<>();
-    private static Queue<Car> southQueue = new ArrayDeque<>();
-    private static int carsOnBridge = 0;
+    private final Object lock = new Object();
+    private Queue<Car> northQueue = new ArrayDeque<>();
+    private Queue<Car> southQueue = new ArrayDeque<>();
+    private int carsOnBridge = 0;
 
     public void process(List<Car> cars) {
         processQueue(cars, Source.NORTH, northQueue);
