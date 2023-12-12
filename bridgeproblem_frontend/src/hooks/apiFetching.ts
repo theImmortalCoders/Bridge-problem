@@ -17,7 +17,7 @@ export const useApiFetching = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api");
+      const response = await fetch("http://localhost:8080/api/get-cars");
       const carData = await response.json();
       setCarData(carData);
 
