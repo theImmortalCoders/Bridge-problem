@@ -1,63 +1,121 @@
-"use client"
-import { useEffect, useState } from 'react';
-import ShipList from '@/Data';
+"use client";
+import React, { useState, useEffect } from "react";
+import ImageComponent from "@/components/ImageComponent";
+import RedCar from "@/assets/redCar.png";
 
-interface Ship {
-    id: string;
-    state: string;
-    processingTime: number;
+interface Car {
+  name: string;
+  state: string;
+  source: string;
+  processingTime: number;
 }
+
+interface CarRequest {
+  name: string;
+  source: string;
+  processingTime: number;
+}
+
 const Home: React.FC = () => {
-    const [ships, setShips] = useState<Ship[]>([]);
-    const [waitingShips, setWaitingShips] = useState<Ship[]>([]);
-    const [processingShips, setProcessingShips] = useState<Ship[]>([]);
-    const [processedShips, setProcessedShips] = useState<Ship[]>([]);
+  const [carData, setCarData] = useState<Car[]>([]);
+  const [waitingSouthCars, setWaitingSouthCars] = useState<Car[]>([]);
+  const [waitingNorthCars, setWaitingNorthCars] = useState<Car[]>([]);
+  const [processingCars, setProcessingCars] = useState<Car[]>([]);
+  const [processedSouthCars, setProcessedSouthCars] = useState<Car[]>([]);
+  const [processedNorthCars, setProcessedNorthCars] = useState<Car[]>([]);
 
-    const fetchData = async () => {
-        try {
-            const shipsResponse = await fetch('http://localhost:8080/api/ships');
-            const shipsData = await shipsResponse.json();
-            setShips(shipsData);
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api");
+      const carData = await response.json();
+      setCarData(carData);
 
-            // Podziel statki na kategorie
-            const waiting = shipsData.filter((ship: { state: string; }) => ship.state === 'WAITING');
-            const processing = shipsData.filter((ship: { state: string; }) => ship.state === 'PROCESSING');
-            const processed = shipsData.filter((ship: { state: string; }) => ship.state === 'PROCESSED');
+      const waitingSouthCars = carData.filter(
+        (car: Car) => car.state === "WAITING" && car.source === "SOUTH"
+      );
 
-            setWaitingShips(waiting);
-            setProcessingShips(processing);
-            setProcessedShips(processed);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+      const waitingNorthCars = carData.filter(
+        (car: Car) => car.state === "WAITING" && car.source === "NORTH"
+      );
+      const processingCars = carData.filter(
+        (car: Car) => car.state === "PROCESSING"
+      );
+
+      const processedSouthCars = carData.filter(
+        (car: Car) => car.state === "PROCESSED" && car.source === "SOUTH"
+      );
+      const processedNorthCars = carData.filter(
+        (car: Car) => car.state === "PROCESSED" && car.source === "NORTH"
+      );
+
+      setWaitingSouthCars(waitingSouthCars);
+      setWaitingNorthCars(waitingNorthCars);
+      setProcessingCars(processingCars);
+      setProcessedSouthCars(processedSouthCars);
+      setProcessedNorthCars(processedNorthCars);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 100);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const handleAddCar = async (source: string) => {
+    const newCar: CarRequest = {
+      name: "car",
+      source: source,
+      processingTime: 10000,
     };
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            fetchData();
-        }, 100);
+    try {
+      console.log("Sending data:", JSON.stringify(newCar));
 
-        return () => clearInterval(intervalId);
-    }, []);
+      await fetch("http://localhost:8080/api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCar),
+      });
+      fetchData();
+    } catch (error) {
+      console.error("Error adding car:", error);
+    }
+  };
 
-    const generateShips = async () => {
-        try {
-            await fetch('http://localhost:8080/api/generate-ships', { method: 'GET' });
-            fetchData();
-        } catch (error) {
-            console.error('Error generating ships:', error);
-        }
-    };
+  const handleAddCarNorth = () => {
+    handleAddCar("NORTH");
+  };
 
-    return (
-        <div>
-            <h1>Ship Processing App</h1>
-            <button onClick={generateShips}>Generate Ship</button>
-            <ShipList title="Waiting Ships" ships={waitingShips} />
-            <ShipList title="Processing Ships" ships={processingShips} />
-            <ShipList title="Processed Ships" ships={processedShips} />
-        </div>
-    );
+  const handleAddCarSouth = () => {
+    handleAddCar("SOUTH");
+  };
+
+  return (
+    <div style={{ position: "relative", height: "400px", width: "600px" }}>
+      <h1>waitingSouthCars {waitingSouthCars.length}</h1>
+      <h1>waitingNorthCars {waitingNorthCars.length}</h1>
+      <h1>processingCars {processingCars.length}</h1>
+      <h1>processedSouthCars {processedSouthCars.length}</h1>
+      <h1>processedNorthCars {processedNorthCars.length}</h1>
+
+      <button onClick={handleAddCarNorth}>Dodaj car NORTH</button>
+      <button onClick={handleAddCarSouth}>Dodaj car SOUTH</button>
+
+      <ImageComponent
+        imagePath={RedCar}
+        position={{ top: 300, left: 100, rotation: 90 }}
+        size={{ width: 100, height: 100 }}
+        speed={5}
+      />
+    </div>
+  );
 };
 
 export default Home;

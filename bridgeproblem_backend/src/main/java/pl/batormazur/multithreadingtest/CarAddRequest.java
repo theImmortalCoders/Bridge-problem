@@ -8,5 +8,5 @@ import lombok.Getter;
 public class CarAddRequest {
     private String name;
     private Source source;
-    private int timeMilliseconds;
+    private int processingTime;
 }
