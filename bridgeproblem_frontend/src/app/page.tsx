@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import ImageComponent from "@/components/ImageComponent";
 import RedCar from "@/assets/redCar.png";
 import { useApiFetching } from "@/hooks/apiFetching";
@@ -17,13 +17,19 @@ const Home: React.FC = () => {
 
   const { handleAddCar } = useApiSending();
 
+  const [travelTime, setTravelTime] = useState<number | null>(null);
+
   const handleAddCarNorth = () => {
-    handleAddCar("NORTH");
+    const generatedTravelTime = Math.floor(Math.random() * 10) + 1;
+    setTravelTime(generatedTravelTime);
+    handleAddCar("NORTH", generatedTravelTime);
     fetchData();
   };
 
   const handleAddCarSouth = () => {
-    handleAddCar("SOUTH");
+    const generatedTravelTime = Math.floor(Math.random() * 10) + 1;
+    setTravelTime(generatedTravelTime);
+    handleAddCar("SOUTH", generatedTravelTime);
     fetchData();
   };
 
@@ -34,6 +40,11 @@ const Home: React.FC = () => {
       <h1>processingCars {processingCars.length}</h1>
       <h1>processedSouthCars {processedSouthCars.length}</h1>
       <h1>processedNorthCars {processedNorthCars.length}</h1>
+      {travelTime !== null ? (
+        <h1>travelTime {travelTime}</h1>
+      ) : (
+        <h1>travelTime = 0</h1>
+      )}
 
       <button onClick={handleAddCarNorth}>Dodaj car NORTH</button>
       <button onClick={handleAddCarSouth}>Dodaj car SOUTH</button>

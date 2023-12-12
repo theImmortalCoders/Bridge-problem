@@ -2,14 +2,15 @@ interface CarRequest {
   name: string;
   source: string;
   processingTime: number;
+  travelTime?: number;
 }
 
 export const useApiSending = () => {
-  const handleAddCar = async (source: string) => {
+  const handleAddCar = async (source: string, travelTime: number) => {
     const newCar: CarRequest = {
       name: "car",
       source: source,
-      processingTime: 10000,
+      processingTime: travelTime * 1000,
     };
 
     try {
