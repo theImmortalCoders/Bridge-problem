@@ -1,100 +1,30 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ImageComponent from "@/components/ImageComponent";
 import RedCar from "@/assets/redCar.png";
-
-interface Car {
-  name: string;
-  state: string;
-  source: string;
-  processingTime: number;
-}
-
-interface CarRequest {
-  name: string;
-  source: string;
-  processingTime: number;
-}
+import { useApiFetching } from "@/hooks/apiFetching";
+import { useApiSending } from "@/hooks/apiSending";
 
 const Home: React.FC = () => {
-  const [carData, setCarData] = useState<Car[]>([]);
-  const [waitingSouthCars, setWaitingSouthCars] = useState<Car[]>([]);
-  const [waitingNorthCars, setWaitingNorthCars] = useState<Car[]>([]);
-  const [processingCars, setProcessingCars] = useState<Car[]>([]);
-  const [processedSouthCars, setProcessedSouthCars] = useState<Car[]>([]);
-  const [processedNorthCars, setProcessedNorthCars] = useState<Car[]>([]);
+  const {
+    waitingSouthCars,
+    waitingNorthCars,
+    processingCars,
+    processedSouthCars,
+    processedNorthCars,
+    fetchData,
+  } = useApiFetching();
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/api");
-      const carData = await response.json();
-      setCarData(carData);
-
-      const waitingSouthCars = carData.filter(
-        (car: Car) => car.state === "WAITING" && car.source === "SOUTH"
-      );
-
-      const waitingNorthCars = carData.filter(
-        (car: Car) => car.state === "WAITING" && car.source === "NORTH"
-      );
-      const processingCars = carData.filter(
-        (car: Car) => car.state === "PROCESSING"
-      );
-
-      const processedSouthCars = carData.filter(
-        (car: Car) => car.state === "PROCESSED" && car.source === "SOUTH"
-      );
-      const processedNorthCars = carData.filter(
-        (car: Car) => car.state === "PROCESSED" && car.source === "NORTH"
-      );
-
-      setWaitingSouthCars(waitingSouthCars);
-      setWaitingNorthCars(waitingNorthCars);
-      setProcessingCars(processingCars);
-      setProcessedSouthCars(processedSouthCars);
-      setProcessedNorthCars(processedNorthCars);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 100);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const handleAddCar = async (source: string) => {
-    const newCar: CarRequest = {
-      name: "car",
-      source: source,
-      processingTime: 10000,
-    };
-
-    try {
-      console.log("Sending data:", JSON.stringify(newCar));
-
-      await fetch("http://localhost:8080/api", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newCar),
-      });
-      fetchData();
-    } catch (error) {
-      console.error("Error adding car:", error);
-    }
-  };
+  const { handleAddCar } = useApiSending();
 
   const handleAddCarNorth = () => {
     handleAddCar("NORTH");
+    fetchData();
   };
 
   const handleAddCarSouth = () => {
     handleAddCar("SOUTH");
+    fetchData();
   };
 
   return (

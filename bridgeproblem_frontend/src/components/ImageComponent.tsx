@@ -41,8 +41,8 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
         top: `${currentPosition.top}px`,
         left: `${currentPosition.left}px`,
         transform: `rotate(${currentPosition.rotation}deg)`,
-        width: `${size.width}px`, // Set the width dynamically
-        height: `${size.height}px`, // Set the height dynamically
+        width: `${size.width}px`,
+        height: `${size.height}px`,
       }}
     >
       <Image {...imagePath} alt="Image" />
