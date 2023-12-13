@@ -14,10 +14,12 @@ export const useApiFetching = () => {
   const [processingCars, setProcessingCars] = useState<Car[]>([]);
   const [processedSouthCars, setProcessedSouthCars] = useState<Car[]>([]);
   const [processedNorthCars, setProcessedNorthCars] = useState<Car[]>([]);
+  const [currentDirection, setCurrentDirection] = useState<string>("NORTH");
+  const [maxCars, setMaxCars] = useState<number>(1);
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/get-cars");
+      const response = await fetch("http://localhost:8080/api/cars");
       const carData = await response.json();
       setCarData(carData);
 
@@ -49,10 +51,34 @@ export const useApiFetching = () => {
     }
   };
 
+  const fetchCurrentDirection = async () => {
+    try {
+      const response = (
+        await fetch("http://localhost:8080/api/direction")
+      ).text();
+      setCurrentDirection(await response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchCurrentCarsAmount = async () => {
+    try {
+      const response = (
+        await fetch("http://localhost:8080/api/max-cars")
+      ).text();
+      setMaxCars(Number(await response));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchData();
-    }, 100);
+      fetchCurrentDirection();
+      fetchCurrentCarsAmount();
+    }, 10);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -65,5 +91,7 @@ export const useApiFetching = () => {
     processedSouthCars,
     processedNorthCars,
     fetchData,
+    currentDirection,
+    maxCars,
   };
 };

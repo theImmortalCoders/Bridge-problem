@@ -2,7 +2,6 @@ package pl.batormazur.multithreadingtest;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,23 +11,31 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 public class BridgeController {
-    private List<Car> cars;
     private final BridgeService bridgeService;
 
-    @GetMapping("/get-cars")
+    @GetMapping("/cars")
     public ResponseEntity<List<Car>> getCars() {
-        return ResponseEntity.ok(cars);
+        return ResponseEntity.ok(bridgeService.getCars());
+    }
+
+    @GetMapping("/direction")
+    public ResponseEntity<Source> getCurrentDrivingDirection() {
+        return ResponseEntity.ok(bridgeService.getCurrentDrivingDirection());
+    }
+
+    @GetMapping("/max-cars")
+    public ResponseEntity<Integer> getMaxCarsAmount() {
+        return ResponseEntity.ok(bridgeService.getMaxCarsAmount());
     }
 
     @PostMapping("/add-car")
     public void addCar(@RequestBody CarAddRequest carRequest) {
         var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), carRequest.getProcessingTime());
-        //var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), ThreadLocalRandom.current().nextInt(1000, 10000 + 1));
-        cars.add(car);
+        bridgeService.addToQueue(car);
     }
 
-    @Scheduled(fixedDelay = 1)
-    public void process() {
-        bridgeService.process(cars);
+    @PostMapping("/max-cars")
+    public void setMaxCars(@RequestBody int maxCarsAmount) {
+        bridgeService.setMaxCarsAmount(maxCarsAmount);
     }
 }
