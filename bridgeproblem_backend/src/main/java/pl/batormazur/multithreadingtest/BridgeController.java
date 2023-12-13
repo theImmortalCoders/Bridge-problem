@@ -3,12 +3,16 @@ package pl.batormazur.multithreadingtest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.batormazur.multithreadingtest.entity.Car;
+import pl.batormazur.multithreadingtest.entity.CarAddRequest;
+import pl.batormazur.multithreadingtest.entity.Source;
+import pl.batormazur.multithreadingtest.entity.State;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 @CrossOrigin
+@RequestMapping("/api")
 @AllArgsConstructor
 public class BridgeController {
     private final BridgeService bridgeService;
@@ -20,7 +24,7 @@ public class BridgeController {
 
     @GetMapping("/direction")
     public ResponseEntity<Source> getCurrentDrivingDirection() {
-        return ResponseEntity.ok(bridgeService.getCurrentDrivingDirection());
+        return ResponseEntity.ok(bridgeService.getCurrentDrivingSource());
     }
 
     @GetMapping("/max-cars")
@@ -30,7 +34,7 @@ public class BridgeController {
 
     @PostMapping("/add-car")
     public void addCar(@RequestBody CarAddRequest carRequest) {
-        var car = new Car(carRequest.getName(), State.WAITING, carRequest.getSource(), carRequest.getProcessingTime());
+        var car = new Car(carRequest.getName(), carRequest.getSource(), carRequest.getProcessingTime(), State.WAITING);
         bridgeService.addToQueue(car);
     }
 

@@ -1,4 +1,4 @@
-package pl.batormazur.multithreadingtest;
+package pl.batormazur.multithreadingtest.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
