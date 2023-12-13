@@ -1,10 +1,7 @@
 package pl.batormazur.multithreadingtest;
 
-import jakarta.validation.constraints.NotEmpty;
-import jdk.jfr.Unsigned;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +19,12 @@ public class BridgeController {
     }
 
     @GetMapping("/direction")
-    public ResponseEntity<Source> getCurrentDrivingDirection(){
+    public ResponseEntity<Source> getCurrentDrivingDirection() {
         return ResponseEntity.ok(bridgeService.getCurrentDrivingDirection());
     }
 
     @GetMapping("/max-cars")
-    public ResponseEntity<Integer> getMaxCarsAmount(){
+    public ResponseEntity<Integer> getMaxCarsAmount() {
         return ResponseEntity.ok(bridgeService.getMaxCarsAmount());
     }
 
@@ -38,7 +35,7 @@ public class BridgeController {
     }
 
     @PostMapping("/max-cars")
-    public void setMaxCars(@RequestBody int maxCarsAmount){
+    public void setMaxCars(@RequestBody int maxCarsAmount) {
         bridgeService.setMaxCarsAmount(maxCarsAmount);
     }
 }
