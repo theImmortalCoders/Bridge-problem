@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.batormazur</groupId>
-    <artifactId>MultithreadingTest</artifactId>
+    <artifactId>BridgeProblemBackend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>MultithreadingTest</name>
-    <description>MultithreadingTest</description>
+    <name>BridgeProblemBackend</name>
+    <description>BridgeProblemBackend</description>
     <properties>
         <java.version>17</java.version>
     </properties>

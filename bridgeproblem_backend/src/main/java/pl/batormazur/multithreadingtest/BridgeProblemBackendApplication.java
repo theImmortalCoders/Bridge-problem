@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MultithreadingTestApplication {
+public class BridgeProblemBackendApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MultithreadingTestApplication.class, args);
+        SpringApplication.run(BridgeProblemBackendApplication.class, args);
     }
 }
