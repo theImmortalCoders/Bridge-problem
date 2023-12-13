@@ -26,7 +26,23 @@ export const useApiSending = () => {
     }
   };
 
+  const setCarsAmount = async (amount: number) => {
+    console.log(amount);
+    try {
+      await fetch("http://localhost:8080/api/max-cars", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(amount),
+      });
+    } catch (error) {
+      console.error("Error setting cars amount:", error);
+    }
+  };
+
   return {
     handleAddCar,
+    setCarsAmount,
   };
 };
