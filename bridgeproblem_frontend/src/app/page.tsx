@@ -85,7 +85,7 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-[38.5vw,20vw,38.5vw] gap-4 w-[100vw] justify-center">
           <div className="flex flex-col items-center">
             <div className="bg-yellow-300 h-[10vh] w-full mb-4 flex flex-row items-center justify-start">
-              {processedSouthCars.slice(-3).map((car, index) => (
+              {processedSouthCars.slice(-5).map((car, index) => (
                 <p
                   key={index}
                   className="flex flex-col justify-center items-center px-1"
@@ -102,7 +102,7 @@ const Home: React.FC = () => {
               ))}
             </div>
             <div className="bg-yellow-300 h-[10vh] w-full flex flex-row items-center justify-end">
-              {waitingNorthCars.map((car, index) => (
+              {waitingNorthCars.slice(0, 5).map((car, index) => (
                 <p
                   key={index}
                   className="flex flex-col justify-center items-center px-1"
@@ -121,7 +121,7 @@ const Home: React.FC = () => {
           </div>
           <div className="flex items-center justify-center h-full w-full">
             <div className="bg-yellow-300 flex items-center justify-center h-[10vh] w-full">
-              {processingCars.map((car, index) => (
+              {processingCars.slice(-5).map((car, index) => (
                 <p
                   key={index}
                   className={`${
@@ -146,7 +146,7 @@ const Home: React.FC = () => {
           </div>
           <div className="flex flex-col items-center">
             <div className="bg-yellow-300 h-[10vh] w-full mb-4 flex flex-row-reverse items-center justify-start">
-              {processedNorthCars.slice(-3).map((car, index) => (
+              {processedNorthCars.slice(-5).map((car, index) => (
                 <p
                   key={index}
                   className="flex flex-col justify-center items-center px-1"
@@ -163,7 +163,7 @@ const Home: React.FC = () => {
               ))}
             </div>
             <div className="bg-yellow-300 h-[10vh] w-full flex flex-row items-center justify-start">
-              {waitingSouthCars.map((car, index) => (
+              {waitingSouthCars.slice(0, 5).map((car, index) => (
                 <p
                   key={index}
                   className=" flex flex-col justify-center items-center px-1"
