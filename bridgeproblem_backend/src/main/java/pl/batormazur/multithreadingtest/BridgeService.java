@@ -3,6 +3,9 @@ package pl.batormazur.multithreadingtest;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
+import pl.batormazur.multithreadingtest.entity.Car;
+import pl.batormazur.multithreadingtest.entity.Source;
+import pl.batormazur.multithreadingtest.entity.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,55 +16,51 @@ import java.util.concurrent.Executors;
 
 @Service
 public class BridgeService {
-    @Getter
-    private List<Car> cars = new ArrayList<>();
-    private final Object lock = new Object();
-    private final Queue<Car> northQueue = new ConcurrentLinkedQueue<>();
-    private final Queue<Car> southQueue = new ConcurrentLinkedQueue<>();
     @Setter
     @Getter
     private int maxCarsAmount = 2;
     @Getter
-    private Source currentDrivingDirection;
+    private Source currentDrivingSource;
+    @Getter
+    private List<Car> cars = new ArrayList<>();
+    private final Queue<Car> northQueue = new ConcurrentLinkedQueue<>();
+    private final Queue<Car> southQueue = new ConcurrentLinkedQueue<>();
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
-
-    public void process(Queue<Car> queue) {
-        executorService.execute(() -> processQueue(queue));
-    }
 
     public void addToQueue(Car car) {
         cars.add(car);
         if (car.getSource() == Source.NORTH) {
             northQueue.add(car);
-            process(northQueue);
-            process(southQueue);
+            resetThread(northQueue);
+            resetThread(southQueue);
         } else {
             southQueue.add(car);
-            process(southQueue);
-            process(northQueue);
+            resetThread(southQueue);
+            resetThread(northQueue);
         }
     }
 
-    private void processQueue(Queue<Car> queue) {
-        synchronized (lock) {
-            for (int i = 0; i < maxCarsAmount; i++) {
-                if (queue.isEmpty()) {
-                    return;
-                }
-                Car currentCar = queue.remove();
-                if (currentCar.getState().equals(State.PROCESSED)) {
-                    continue;
-                }
-                currentCar.setState(State.PROCESSING);
-                currentDrivingDirection = currentCar.getSource();
-                try {
-                    Thread.sleep(currentCar.getProcessingTime());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                currentCar.setState(State.PROCESSED);
-                lock.notifyAll();
-            }
+    private void resetThread(Queue<Car> queue) {
+        executorService.execute(() -> processQueue(queue));
+    }
+
+    private synchronized void processQueue(Queue<Car> queue) {
+        for (int i = 0; i < maxCarsAmount && !queue.isEmpty(); i++) {
+            var currentCar = queue.remove();
+            if (currentCar.getState() == State.PROCESSED) continue;
+            crossBridge(currentCar);
+            notifyAll();
         }
+    }
+
+    private synchronized void crossBridge(Car currentCar) {
+        currentCar.setState(State.PROCESSING);
+        currentDrivingSource = currentCar.getSource();
+        try {
+            Thread.sleep(currentCar.getProcessingTime());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        currentCar.setState(State.PROCESSED);
     }
 }
