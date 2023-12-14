@@ -45,6 +45,8 @@ const Home: React.FC = () => {
     setMaxCarsAmount(maxCars - 1);
   };
 
+  //console.log("processedSouthCars", processedSouthCars);
+  console.log("processedNorthCars", processedNorthCars);
   return (
     <div className="min-h-[100vh] min-w-[100vw]">
       <div className="grid grid-cols-3 gap-4 w-[100vw]">
@@ -79,11 +81,11 @@ const Home: React.FC = () => {
       </div>
 
       {/* TUTAJ JEST JEZDNIA */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="grid grid-cols-[40vw,20vw,40vw] gap-4 w-[100vw] justify-center">
+      <div className="grid grid-cols-3 gap-4 items-center">
+        <div className="grid grid-cols-[38.5vw,20vw,38.5vw] gap-4 w-[100vw] justify-center">
           <div className="flex flex-col items-center">
-            <div className="bg-yellow-300 h-[20vh] w-full mb-4 flex flex-row items-center justify-start">
-              {processedNorthCars.slice(-3).map((car, index) => (
+            <div className="bg-yellow-300 h-[10vh] w-full mb-4 flex flex-row items-center justify-start">
+              {processedSouthCars.slice(-3).map((car, index) => (
                 <p
                   key={index}
                   className="flex flex-col justify-center items-center px-1"
@@ -91,15 +93,15 @@ const Home: React.FC = () => {
                   <Image
                     src={"/blueCar.png"}
                     alt={""}
-                    width={100}
-                    height={100}
+                    width={50}
+                    height={50}
                     className="-rotate-90"
                   />
                   {`Travel Time: ${car.processingTime / 1000}`}
                 </p>
               ))}
             </div>
-            <div className="bg-yellow-300 h-[20vh] w-full flex flex-row items-center justify-end">
+            <div className="bg-yellow-300 h-[10vh] w-full flex flex-row items-center justify-end">
               {waitingNorthCars.map((car, index) => (
                 <p
                   key={index}
@@ -108,8 +110,8 @@ const Home: React.FC = () => {
                   <Image
                     src={"/redCar.png"}
                     alt={""}
-                    width={100}
-                    height={100}
+                    width={50}
+                    height={50}
                     className="rotate-90"
                   />
                   {`Travel Time: ${car.processingTime / 1000}`}
@@ -118,7 +120,7 @@ const Home: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center justify-center h-full w-full">
-            <div className="bg-yellow-300 flex items-center justify-center h-[20vh] w-full">
+            <div className="bg-yellow-300 flex items-center justify-center h-[10vh] w-full">
               {processingCars.map((car, index) => (
                 <p
                   key={index}
@@ -129,8 +131,8 @@ const Home: React.FC = () => {
                   <Image
                     src={`/${car.source === "NORTH" ? "red" : "blue"}Car.png`}
                     alt={""}
-                    width={100}
-                    height={100}
+                    width={50}
+                    height={50}
                     style={{
                       transform: `rotate(${
                         car.source === "NORTH" ? 90 : -90
@@ -143,8 +145,8 @@ const Home: React.FC = () => {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-yellow-300 h-[20vh] w-full mb-4 flex flex-row items-center justify-end">
-              {processedSouthCars.slice(-3).map((car, index) => (
+            <div className="bg-yellow-300 h-[10vh] w-full mb-4 flex flex-row-reverse items-center justify-start">
+              {processedNorthCars.slice(-3).map((car, index) => (
                 <p
                   key={index}
                   className="flex flex-col justify-center items-center px-1"
@@ -152,15 +154,15 @@ const Home: React.FC = () => {
                   <Image
                     src={"/redCar.png"}
                     alt={""}
-                    width={100}
-                    height={100}
+                    width={50}
+                    height={50}
                     className="rotate-90"
                   />
                   {`Travel Time: ${car.processingTime / 1000}`}
                 </p>
               ))}
             </div>
-            <div className="bg-yellow-300 h-[20vh] w-full flex flex-row items-center justify-start">
+            <div className="bg-yellow-300 h-[10vh] w-full flex flex-row items-center justify-start">
               {waitingSouthCars.map((car, index) => (
                 <p
                   key={index}
@@ -169,8 +171,8 @@ const Home: React.FC = () => {
                   <Image
                     src={"/blueCar.png"}
                     alt={""}
-                    width={100}
-                    height={100}
+                    width={50}
+                    height={50}
                     className="-rotate-90"
                   />
                   {`Travel Time: ${car.processingTime / 1000}`}
