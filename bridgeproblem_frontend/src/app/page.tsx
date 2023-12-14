@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useApiFetching } from "@/hooks/apiFetching";
 import { useApiSending } from "@/hooks/apiSending";
 import Image from "next/image";
+import CarComponent from "@/components/CarComponent";
 
 const Home: React.FC = () => {
   const {
@@ -86,97 +87,56 @@ const Home: React.FC = () => {
           <div className="flex flex-col items-center">
             <div className="bg-yellow-300 h-[10vh] w-full mb-4 flex flex-row items-center justify-start">
               {processedSouthCars.slice(-5).map((car, index) => (
-                <p
+                <CarComponent
                   key={index}
-                  className="flex flex-col justify-center items-center px-1"
-                >
-                  <Image
-                    src={"/blueCar.png"}
-                    alt={""}
-                    width={50}
-                    height={50}
-                    className="-rotate-90"
-                  />
-                  {`Travel Time: ${car.processingTime / 1000}`}
-                </p>
+                  index={index}
+                  source={car.source}
+                  processingTime={car.processingTime}
+                />
               ))}
             </div>
             <div className="bg-yellow-300 h-[10vh] w-full flex flex-row items-center justify-end">
               {waitingNorthCars.slice(0, 5).map((car, index) => (
-                <p
+                <CarComponent
                   key={index}
-                  className="flex flex-col justify-center items-center px-1"
-                >
-                  <Image
-                    src={"/redCar.png"}
-                    alt={""}
-                    width={50}
-                    height={50}
-                    className="rotate-90"
-                  />
-                  {`Travel Time: ${car.processingTime / 1000}`}
-                </p>
+                  index={index}
+                  source={car.source}
+                  processingTime={car.processingTime}
+                />
               ))}
             </div>
           </div>
           <div className="flex items-center justify-center h-full w-full">
             <div className="bg-yellow-300 flex items-center justify-center h-[10vh] w-full">
               {processingCars.slice(-5).map((car, index) => (
-                <p
+                <CarComponent
                   key={index}
-                  className={`${
-                    car.source === "NORTH" ? "" : "-"
-                  }flex flex-col justify-center items-center`}
-                >
-                  <Image
-                    src={`/${car.source === "NORTH" ? "red" : "blue"}Car.png`}
-                    alt={""}
-                    width={50}
-                    height={50}
-                    style={{
-                      transform: `rotate(${
-                        car.source === "NORTH" ? 90 : -90
-                      }deg)`,
-                    }}
-                  />
-                  {`Travel Time: ${car.processingTime / 1000}`}
-                </p>
+                  index={index}
+                  source={car.source}
+                  processingTime={car.processingTime}
+                />
               ))}
             </div>
           </div>
           <div className="flex flex-col items-center">
             <div className="bg-yellow-300 h-[10vh] w-full mb-4 flex flex-row-reverse items-center justify-start">
               {processedNorthCars.slice(-5).map((car, index) => (
-                <p
+                <CarComponent
                   key={index}
-                  className="flex flex-col justify-center items-center px-1"
-                >
-                  <Image
-                    src={"/redCar.png"}
-                    alt={""}
-                    width={50}
-                    height={50}
-                    className="rotate-90"
-                  />
-                  {`Travel Time: ${car.processingTime / 1000}`}
-                </p>
+                  index={index}
+                  source={car.source}
+                  processingTime={car.processingTime}
+                />
               ))}
             </div>
             <div className="bg-yellow-300 h-[10vh] w-full flex flex-row items-center justify-start">
               {waitingSouthCars.slice(0, 5).map((car, index) => (
-                <p
+                <CarComponent
                   key={index}
-                  className=" flex flex-col justify-center items-center px-1"
-                >
-                  <Image
-                    src={"/blueCar.png"}
-                    alt={""}
-                    width={50}
-                    height={50}
-                    className="-rotate-90"
-                  />
-                  {`Travel Time: ${car.processingTime / 1000}`}
-                </p>
+                  index={index}
+                  source={car.source}
+                  processingTime={car.processingTime}
+                />
               ))}
             </div>
           </div>
