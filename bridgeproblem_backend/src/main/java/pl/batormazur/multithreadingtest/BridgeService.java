@@ -7,8 +7,6 @@ import pl.batormazur.multithreadingtest.entity.Car;
 import pl.batormazur.multithreadingtest.entity.Source;
 import pl.batormazur.multithreadingtest.entity.State;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
@@ -21,11 +19,14 @@ public class BridgeService {
     private int maxCarsAmount = 2;
     @Getter
     private Source currentDrivingSource;
-    @Getter
-    private List<Car> cars = new ArrayList<>();
+    private final Queue<Car> cars = new ConcurrentLinkedQueue<>();
     private final Queue<Car> northQueue = new ConcurrentLinkedQueue<>();
     private final Queue<Car> southQueue = new ConcurrentLinkedQueue<>();
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+    public Queue<Car> getCars() {
+        return cars;
+    }
 
     public void addToQueue(Car car) {
         cars.add(car);
@@ -62,5 +63,6 @@ public class BridgeService {
             e.printStackTrace();
         }
         currentCar.setState(State.PROCESSED);
+        currentCar.setProcessedTimeStamp(System.currentTimeMillis());
     }
 }
