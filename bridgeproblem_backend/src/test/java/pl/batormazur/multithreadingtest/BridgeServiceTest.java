@@ -33,7 +33,7 @@ class BridgeServiceTest {
         cars.forEach(bridgeService::addToQueue);
         long startTimeMillis = System.currentTimeMillis();
         List<Car> processed = new ArrayList<>();
-        while (System.currentTimeMillis() - startTimeMillis < 8000) {
+        while (System.currentTimeMillis() - startTimeMillis < 6100) {
             bridgeService.getCars()
                     .stream()
                     .filter(c -> c.getState().equals(State.PROCESSED))

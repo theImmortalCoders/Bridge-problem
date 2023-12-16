@@ -19,30 +19,32 @@ public class BridgeService {
     private int maxCarsAmount = 2;
     @Getter
     private Source currentDrivingSource;
+    @Getter
     private final Queue<Car> cars = new ConcurrentLinkedQueue<>();
     private final Queue<Car> northQueue = new ConcurrentLinkedQueue<>();
     private final Queue<Car> southQueue = new ConcurrentLinkedQueue<>();
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-    public Queue<Car> getCars() {
-        return cars;
-    }
-
     public void addToQueue(Car car) {
         cars.add(car);
         if (car.getSource() == Source.NORTH) {
             northQueue.add(car);
-            resetThread(northQueue);
-            resetThread(southQueue);
+            executorService.execute(() -> processQueue(northQueue));
+            executorService.execute(() -> processQueue(southQueue));
         } else {
             southQueue.add(car);
-            resetThread(southQueue);
-            resetThread(northQueue);
+            executorService.execute(() -> processQueue(southQueue));
+            executorService.execute(() -> processQueue(northQueue));
         }
     }
 
-    private void resetThread(Queue<Car> queue) {
-        executorService.execute(() -> processQueue(queue));
+    public void deleteProcessed() {
+        var toRemove = cars.stream()
+                .filter(c -> c.getState().equals(State.PROCESSED))
+                .filter(c -> System.currentTimeMillis() - c.getProcessedTimeStamp() > 5000)
+                .toList();
+        if (toRemove.size() > 0)
+            cars.removeAll(toRemove);
     }
 
     private synchronized void processQueue(Queue<Car> queue) {
