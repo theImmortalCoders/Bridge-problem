@@ -31,9 +31,9 @@ class BridgeServiceTest {
         int southCarsCount = 3;
         List<Car> cars = createCars(northCarsCount, southCarsCount);
         cars.forEach(bridgeService::addToQueue);
-        List<Car> processed = new ArrayList<>();
         long startTimeMillis = System.currentTimeMillis();
-        while (System.currentTimeMillis() - startTimeMillis < 7000) {
+        List<Car> processed = new ArrayList<>();
+        while (System.currentTimeMillis() - startTimeMillis < 6100) {
             bridgeService.getCars()
                     .stream()
                     .filter(c -> c.getState().equals(State.PROCESSED))
@@ -51,10 +51,10 @@ class BridgeServiceTest {
     private List<Car> createCars(int northCarsCount, int southCarsCount) {
         List<Car> cars = new ArrayList<>();
         for (int i = 1; i <= northCarsCount; i++) {
-            cars.add(new Car("carN" + i, Source.NORTH, 1000, State.WAITING));
+            cars.add(new Car("carN" + i, Source.NORTH, 1000));
         }
         for (int i = 1; i <= southCarsCount; i++) {
-            cars.add(new Car("carS" + i, Source.SOUTH, 1000, State.WAITING));
+            cars.add(new Car("carS" + i, Source.SOUTH, 1000));
         }
         return cars;
     }

@@ -7,8 +7,6 @@ import pl.batormazur.multithreadingtest.entity.Car;
 import pl.batormazur.multithreadingtest.entity.Source;
 import pl.batormazur.multithreadingtest.entity.State;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
@@ -22,7 +20,7 @@ public class BridgeService {
     @Getter
     private Source currentDrivingSource;
     @Getter
-    private List<Car> cars = new ArrayList<>();
+    private final Queue<Car> cars = new ConcurrentLinkedQueue<>();
     private final Queue<Car> northQueue = new ConcurrentLinkedQueue<>();
     private final Queue<Car> southQueue = new ConcurrentLinkedQueue<>();
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
@@ -31,17 +29,22 @@ public class BridgeService {
         cars.add(car);
         if (car.getSource() == Source.NORTH) {
             northQueue.add(car);
-            resetThread(northQueue);
-            resetThread(southQueue);
+            executorService.execute(() -> processQueue(northQueue));
+            executorService.execute(() -> processQueue(southQueue));
         } else {
             southQueue.add(car);
-            resetThread(southQueue);
-            resetThread(northQueue);
+            executorService.execute(() -> processQueue(southQueue));
+            executorService.execute(() -> processQueue(northQueue));
         }
     }
 
-    private void resetThread(Queue<Car> queue) {
-        executorService.execute(() -> processQueue(queue));
+    public void deleteProcessed() {
+        var toRemove = cars.stream()
+                .filter(c -> c.getState().equals(State.PROCESSED))
+                .filter(c -> System.currentTimeMillis() - c.getProcessedTimeStamp() > 5000)
+                .toList();
+        if (toRemove.size() > 0)
+            cars.removeAll(toRemove);
     }
 
     private synchronized void processQueue(Queue<Car> queue) {
@@ -62,5 +65,6 @@ public class BridgeService {
             e.printStackTrace();
         }
         currentCar.setState(State.PROCESSED);
+        currentCar.setProcessedTimeStamp(System.currentTimeMillis());
     }
 }
