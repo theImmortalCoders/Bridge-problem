@@ -134,6 +134,22 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* TUTAJ SA SWIATŁA */}
+        <div className="absolute top-[76vh] left-[20vw]">
+          <div
+            className={`h-[40px] w-[40px] rounded-full ${
+              currentDirection === '"NORTH"' ? "bg-green-600" : "bg-red-600"
+            }`}
+          ></div>
+        </div>
+        <div className="absolute top-[76vh] right-[22vw]">
+          <div
+            className={`h-[40px] w-[40px] rounded-full ${
+              currentDirection === '"SOUTH"' ? "bg-green-600" : "bg-red-600"
+            }`}
+          ></div>
+        </div>
+
         {/* TUTAJ JEST BUTTON */}
         <div className="relative top-[71vh]">
           <div className="flex w-[100vw] justify-between px-16">
