@@ -1,0 +1,6 @@
+services:
+  bridgeproblem_backend:
+    container_name: bridgeproblem_backend
+    image: bator/bridgeproblem_backend
+    ports:
+      - "8080:8080"
