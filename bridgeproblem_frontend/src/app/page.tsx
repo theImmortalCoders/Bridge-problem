@@ -45,104 +45,110 @@ const Home: React.FC = () => {
     setCarsAmount(maxCars - 1);
     setMaxCarsAmount(maxCars - 1);
   };
-
-  //console.log("processedSouthCars", processedSouthCars);
-  console.log("processedNorthCars", processedNorthCars);
   return (
-    <div className="min-h-[100vh] min-w-[100vw]">
-      <div className="grid grid-cols-3 gap-4 w-[100vw]">
-        <div className="col-span-1 p-4">
-          <h1>waitingNorthCars {waitingNorthCars.length}</h1>
-          <h1>processedNorthCars {processedNorthCars.length}</h1>
-          <button onClick={handleAddCarNorth}>Dodaj car NORTH</button>
+    <>
+      <Image
+        src="/bg.png"
+        width="1080"
+        height="1920"
+        sizes="100vw"
+        className="min-h-[100v] w-auto fixed center top-0 left-0 z-[-10]"
+        alt={"bridge"}
+      />
+      <div className="min-h-[100vh] min-w-[100vw]">
+        <div className="grid grid-cols-3 gap-4 w-[100vw]">
+          <div className="col-span-1 p-4 bg-slate-700">
+            <h1>waitingNorthCars {waitingNorthCars.length}</h1>
+            <h1>processedNorthCars {processedNorthCars.length}</h1>
+            <button onClick={handleAddCarNorth}>Dodaj car NORTH</button>
+          </div>
+          <div className="col-span-1 p-4 bg-slate-700">
+            <h1>processingCars {processingCars.length}</h1>
+            {travelTime !== null ? (
+              <h1>travelTime {travelTime}</h1>
+            ) : (
+              <h1>travelTime = 0</h1>
+            )}
+            current direction:
+            {currentDirection}
+            max cars amount:
+            {maxCarsAmount}
+            <button onClick={handleIncreaseSetMaxCars}>
+              Zwiększ max. liczbę aut z jednej strony naraz
+            </button>
+            <button onClick={handleDecreaseSetMaxCars}>
+              Zmniejsz max. liczbę aut z jednej strony naraz
+            </button>
+          </div>
+          <div className="col-span-1 p-4 bg-slate-700">
+            <h1>waitingSouthCars {waitingSouthCars.length}</h1>
+            <h1>processedSouthCars {processedSouthCars.length}</h1>
+            <button onClick={handleAddCarSouth}>Dodaj car SOUTH</button>
+          </div>
         </div>
-        <div className="col-span-1 p-4">
-          <h1>processingCars {processingCars.length}</h1>
-          {travelTime !== null ? (
-            <h1>travelTime {travelTime}</h1>
-          ) : (
-            <h1>travelTime = 0</h1>
-          )}
-          current direction:
-          {currentDirection}
-          max cars amount:
-          {maxCarsAmount}
-          <button onClick={handleIncreaseSetMaxCars}>
-            Zwiększ max. liczbę aut z jednej strony naraz
-          </button>
-          <button onClick={handleDecreaseSetMaxCars}>
-            Zmniejsz max. liczbę aut z jednej strony naraz
-          </button>
-        </div>
-        <div className="col-span-1 p-4">
-          <h1>waitingSouthCars {waitingSouthCars.length}</h1>
-          <h1>processedSouthCars {processedSouthCars.length}</h1>
-          <button onClick={handleAddCarSouth}>Dodaj car SOUTH</button>
+        {/* TUTAJ JEST JEZDNIA */}
+        <div className="grid grid-cols-3 gap-4 items-center absolute top-[63.7vh]">
+          <div className="grid grid-cols-[22.5vw,44vw,22.5vw] gap-40 w-[100vw] justify-center">
+            <div className="flex flex-col items-center">
+              <div className="h-[5.5vh] w-full mb-4 flex flex-row items-center justify-start">
+                {processedSouthCars.slice(-5).map((car, index) => (
+                  <CarComponent
+                    key={index}
+                    index={index}
+                    source={car.source}
+                    processingTime={car.processingTime}
+                  />
+                ))}
+              </div>
+              <div className="h-[5.5vh] w-full flex flex-row items-center justify-end">
+                {waitingNorthCars.slice(0, 6).map((car, index) => (
+                  <CarComponent
+                    key={index}
+                    index={index}
+                    source={car.source}
+                    processingTime={car.processingTime}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center justify-center h-full w-full">
+              <div className=" flex items-center justify-center h-[5.5vh] w-full">
+                {processingCars.slice(-6).map((car, index) => (
+                  <CarComponent
+                    key={index}
+                    index={index}
+                    source={car.source}
+                    processingTime={car.processingTime}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className=" h-[5.5vh] w-full mb-4 flex flex-row-reverse items-center justify-start">
+                {processedNorthCars.slice(-6).map((car, index) => (
+                  <CarComponent
+                    key={index}
+                    index={index}
+                    source={car.source}
+                    processingTime={car.processingTime}
+                  />
+                ))}
+              </div>
+              <div className=" h-[5.5vh] w-full flex flex-row items-center justify-start">
+                {waitingSouthCars.slice(0, 6).map((car, index) => (
+                  <CarComponent
+                    key={index}
+                    index={index}
+                    source={car.source}
+                    processingTime={car.processingTime}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* TUTAJ JEST JEZDNIA */}
-      <div className="grid grid-cols-3 gap-4 items-center">
-        <div className="grid grid-cols-[38.5vw,20vw,38.5vw] gap-4 w-[100vw] justify-center">
-          <div className="flex flex-col items-center">
-            <div className="bg-yellow-300 h-[10vh] w-full mb-4 flex flex-row items-center justify-start">
-              {processedSouthCars.slice(-5).map((car, index) => (
-                <CarComponent
-                  key={index}
-                  index={index}
-                  source={car.source}
-                  processingTime={car.processingTime}
-                />
-              ))}
-            </div>
-            <div className="bg-yellow-300 h-[10vh] w-full flex flex-row items-center justify-end">
-              {waitingNorthCars.slice(0, 5).map((car, index) => (
-                <CarComponent
-                  key={index}
-                  index={index}
-                  source={car.source}
-                  processingTime={car.processingTime}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="flex items-center justify-center h-full w-full">
-            <div className="bg-yellow-300 flex items-center justify-center h-[10vh] w-full">
-              {processingCars.slice(-5).map((car, index) => (
-                <CarComponent
-                  key={index}
-                  index={index}
-                  source={car.source}
-                  processingTime={car.processingTime}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="bg-yellow-300 h-[10vh] w-full mb-4 flex flex-row-reverse items-center justify-start">
-              {processedNorthCars.slice(-5).map((car, index) => (
-                <CarComponent
-                  key={index}
-                  index={index}
-                  source={car.source}
-                  processingTime={car.processingTime}
-                />
-              ))}
-            </div>
-            <div className="bg-yellow-300 h-[10vh] w-full flex flex-row items-center justify-start">
-              {waitingSouthCars.slice(0, 5).map((car, index) => (
-                <CarComponent
-                  key={index}
-                  index={index}
-                  source={car.source}
-                  processingTime={car.processingTime}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 
