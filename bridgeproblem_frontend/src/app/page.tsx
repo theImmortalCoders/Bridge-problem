@@ -70,10 +70,10 @@ const Home: React.FC = () => {
           </div>
         </div>
         {/* TUTAJ JEST JEZDNIA */}
-        <div className="grid grid-cols-3 gap-4 items-center absolute top-[60.7vh]">
+        <div className="grid grid-cols-3 gap-4 items-center absolute top-[61.5vh]">
           <div className="grid grid-cols-[21.5vw,44vw,21.5vw] gap-28 w-[100vw] justify-center">
             <div className="flex flex-col items-center">
-              <div className=" h-[5.5vh] w-full mb-4 flex flex-row items-center justify-start">
+              <div className=" h-[5vh] w-full mb-3 flex flex-row items-center justify-start">
                 {processedSouthCars.slice(-6).map((car, index) => (
                   <CarComponent
                     key={index}
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
                   />
                 ))}
               </div>
-              <div className=" h-[5.5vh] w-full flex flex-row items-center justify-end">
+              <div className=" h-[5vh] w-full flex flex-row items-center justify-end">
                 {waitingNorthCars.slice(0, 7).map((car, index) => (
                   <CarComponent
                     key={index}
@@ -95,7 +95,7 @@ const Home: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center justify-center h-full w-full">
-              <div className=" flex items-center justify-center h-[5.5vh] w-full">
+              <div className=" flex items-center justify-center h-[5vh] w-full">
                 {processingCars.slice(-6).map((car, index) => (
                   <CarComponent
                     key={index}
@@ -107,8 +107,8 @@ const Home: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="h-[5.5vh] w-full mb-4 flex flex-row-reverse items-center justify-start">
-                {processedNorthCars.slice(-6).map((car, index) => (
+              <div className="h-[5vh] w-full mb-3 flex flex-row-reverse items-center justify-end">
+                {waitingSouthCars.slice(0, 7).map((car, index) => (
                   <CarComponent
                     key={index}
                     index={index}
@@ -117,8 +117,8 @@ const Home: React.FC = () => {
                   />
                 ))}
               </div>
-              <div className=" h-[5.5vh] w-full flex flex-row items-center justify-start">
-                {waitingSouthCars.slice(0, 7).map((car, index) => (
+              <div className=" h-[5vh] w-full flex flex-row items-center justify-end">
+                {processedNorthCars.slice(-6).map((car, index) => (
                   <CarComponent
                     key={index}
                     index={index}
@@ -131,16 +131,16 @@ const Home: React.FC = () => {
           </div>
         </div>
         {/* TUTAJ SA SWIATŁA */}
-        <div className="absolute top-[76vh] left-[20vw]">
+        <div className="absolute top-[73vh] left-[20vw]">
           <div
-            className={`h-[40px] w-[40px] rounded-full ${
+            className={`h-[30px] w-[30px] rounded-full ${
               currentDirection === '"NORTH"' ? "bg-green-600" : "bg-red-600"
             }`}
           ></div>
         </div>
-        <div className="absolute top-[76vh] right-[22vw]">
+        <div className="absolute top-[57.5vh] right-[22vw]">
           <div
-            className={`h-[40px] w-[40px] rounded-full ${
+            className={`h-[30px] w-[30px] rounded-full ${
               currentDirection === '"SOUTH"' ? "bg-green-600" : "bg-red-600"
             }`}
           ></div>
@@ -175,7 +175,7 @@ const Home: React.FC = () => {
               +1
             </button>
           </div>
-        </div>{" "}
+        </div>
       </div>
     </>
   );

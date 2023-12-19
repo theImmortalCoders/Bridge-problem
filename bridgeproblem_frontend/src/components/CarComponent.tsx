@@ -22,21 +22,23 @@ const CarComponent: React.FC<ImageComponentProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Image
-        src={`/${source === "NORTH" ? "red" : "blue"}Car.png`}
-        alt=""
-        width={50}
-        height={50}
-        style={{ transform: `rotate(${rotateValue}deg)` }}
-        className={`relative ${
-          rotateValue === 90 ? "rotate-90" : "-rotate-90"
-        } ${isHovered ? "hovered" : ""}`}
-      />
-      {isHovered && (
-        <span className="bg-slate-600 p-2 rounded-md absolute top-[-1vh] text-[18px]">
-          Travel Time: {processingTime / 1000}s
-        </span>
-      )}
+      <div className="relative">
+        <Image
+          src={`/${source === "NORTH" ? "red" : "blue"}Car.png`}
+          alt=""
+          width={50}
+          height={50}
+          style={{ transform: `rotate(${rotateValue}deg)` }}
+          className={` ${rotateValue === 90 ? "rotate-90" : "-rotate-90"} ${
+            isHovered ? "hovered" : ""
+          }`}
+        />
+        {isHovered && (
+          <h1 className="bg-slate-600 p-2 rounded-md absolute top-[-40px] text-[18px] min-w-[160px] left-[-55px] items-center justify-center">
+            Travel Time: {processingTime / 1000}s
+          </h1>
+        )}
+      </div>
     </div>
   );
 };
