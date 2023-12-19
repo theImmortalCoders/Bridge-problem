@@ -41,7 +41,7 @@ public class BridgeService {
     public void deleteProcessed() {
         var toRemove = cars.stream()
                 .filter(c -> c.getState().equals(State.PROCESSED))
-                .filter(c -> System.currentTimeMillis() - c.getProcessedTimeStamp() > 5000)
+                .filter(c -> System.currentTimeMillis() - c.getProcessedTimeStamp() > 10000)
                 .toList();
         if (toRemove.size() > 0)
             cars.removeAll(toRemove);
