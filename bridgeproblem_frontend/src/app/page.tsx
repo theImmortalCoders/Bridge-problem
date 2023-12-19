@@ -56,29 +56,25 @@ const Home: React.FC = () => {
         alt={"bridge"}
       />
       <div className="min-h-[100vh] min-w-[100vw]">
-        <div className="col-span-1 p-4 bg-slate-700">
-          current direction:
-          {currentDirection}
-        </div>
         {/* TUTAJ JEST WATING */}
         <div className="relative top-[40vh]">
           <div className="flex w-[100vw] justify-between px-16">
-            <div className="h-auto w-auto bg-white text-black rounded-lg p-2 text-[30px]">
+            <div className="h-auto w-auto bg-white text-black rounded-lg p-2 text-[18px]">
               <h1>waitingNorthCars: {waitingNorthCars.length}</h1>
               <h1>processedNorthCars: {processedNorthCars.length}</h1>
             </div>
-            <div className="h-auto w-auto bg-white text-black rounded-lg p-2 text-[30px]">
+            <div className="h-auto w-auto bg-white text-black rounded-lg p-2 text-[18px]">
               <h1>waitingSouthCars: {waitingSouthCars.length}</h1>
               <h1>processedSouthCars: {processedSouthCars.length}</h1>
             </div>
           </div>
         </div>
         {/* TUTAJ JEST JEZDNIA */}
-        <div className="grid grid-cols-3 gap-4 items-center absolute top-[63.7vh]">
-          <div className="grid grid-cols-[22.5vw,44vw,22.5vw] gap-40 w-[100vw] justify-center">
+        <div className="grid grid-cols-3 gap-4 items-center absolute top-[60.7vh]">
+          <div className="grid grid-cols-[21.5vw,44vw,21.5vw] gap-28 w-[100vw] justify-center">
             <div className="flex flex-col items-center">
-              <div className="h-[5.5vh] w-full mb-4 flex flex-row items-center justify-start">
-                {processedSouthCars.slice(-5).map((car, index) => (
+              <div className=" h-[5.5vh] w-full mb-4 flex flex-row items-center justify-start">
+                {processedSouthCars.slice(-6).map((car, index) => (
                   <CarComponent
                     key={index}
                     index={index}
@@ -87,8 +83,8 @@ const Home: React.FC = () => {
                   />
                 ))}
               </div>
-              <div className="h-[5.5vh] w-full flex flex-row items-center justify-end">
-                {waitingNorthCars.slice(0, 6).map((car, index) => (
+              <div className=" h-[5.5vh] w-full flex flex-row items-center justify-end">
+                {waitingNorthCars.slice(0, 7).map((car, index) => (
                   <CarComponent
                     key={index}
                     index={index}
@@ -111,7 +107,7 @@ const Home: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col items-center">
-              <div className=" h-[5.5vh] w-full mb-4 flex flex-row-reverse items-center justify-start">
+              <div className="h-[5.5vh] w-full mb-4 flex flex-row-reverse items-center justify-start">
                 {processedNorthCars.slice(-6).map((car, index) => (
                   <CarComponent
                     key={index}
@@ -122,7 +118,7 @@ const Home: React.FC = () => {
                 ))}
               </div>
               <div className=" h-[5.5vh] w-full flex flex-row items-center justify-start">
-                {waitingSouthCars.slice(0, 6).map((car, index) => (
+                {waitingSouthCars.slice(0, 7).map((car, index) => (
                   <CarComponent
                     key={index}
                     index={index}
@@ -149,14 +145,13 @@ const Home: React.FC = () => {
             }`}
           ></div>
         </div>
-
         {/* TUTAJ JEST BUTTON */}
         <div className="relative top-[71vh]">
           <div className="flex w-[100vw] justify-between px-16">
-            <div className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[30px]">
+            <div className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[18px]">
               <button onClick={handleAddCarNorth}>Dodaj car NORTH</button>
             </div>
-            <div className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[30px]">
+            <div className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[18px]">
               <button onClick={handleAddCarSouth}>Dodaj car SOUTH</button>
             </div>
           </div>
@@ -165,22 +160,22 @@ const Home: React.FC = () => {
         <div className="relative top-[71vh]">
           <div className="flex w-[100vw] justify-center px-16 gap-8">
             <button
-              className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[30px]"
+              className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[18px]"
               onClick={handleDecreaseSetMaxCars}
             >
               -1
             </button>
-            <h1 className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[30px]">
+            <h1 className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[18px]">
               max cars amount: {maxCarsAmount}
             </h1>
             <button
-              className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[30px]"
+              className="h-auto w-auto bg-slate-600 rounded-lg p-2 text-[18px]"
               onClick={handleIncreaseSetMaxCars}
             >
               +1
             </button>
           </div>
-        </div>
+        </div>{" "}
       </div>
     </>
   );

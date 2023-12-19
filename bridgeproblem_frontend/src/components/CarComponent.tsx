@@ -25,15 +25,15 @@ const CarComponent: React.FC<ImageComponentProps> = ({
       <Image
         src={`/${source === "NORTH" ? "red" : "blue"}Car.png`}
         alt=""
-        width={100}
-        height={100}
+        width={50}
+        height={50}
         style={{ transform: `rotate(${rotateValue}deg)` }}
         className={`relative ${
           rotateValue === 90 ? "rotate-90" : "-rotate-90"
         } ${isHovered ? "hovered" : ""}`}
       />
       {isHovered && (
-        <span className="bg-slate-600 p-2 rounded-md absolute top-[-1vh] text-[30px]">
+        <span className="bg-slate-600 p-2 rounded-md absolute top-[-1vh] text-[18px]">
           Travel Time: {processingTime / 1000}s
         </span>
       )}
