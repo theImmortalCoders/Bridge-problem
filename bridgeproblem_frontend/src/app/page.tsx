@@ -43,8 +43,10 @@ const Home: React.FC = () => {
     };
 
     const handleDecreaseSetMaxCars = () => {
+      if(maxCars>0){
         setCarsAmount(maxCars - 1);
         setMaxCarsAmount(maxCars - 1);
+      }
     };
     return (
         <>
@@ -133,14 +135,14 @@ const Home: React.FC = () => {
                 <div className="absolute top-[73vh] left-[20vw]">
                     <div
                         className={`h-[30px] w-[30px] rounded-full ${
-                            currentDirection === '"NORTH"' ? "bg-green-600" : "bg-red-600"
+                            currentDirection === '"NORTH"' && maxCars > 0 ? "bg-green-600" : "bg-red-600"
                         }`}
                     ></div>
                 </div>
                 <div className="absolute top-[57.5vh] right-[22vw]">
                     <div
                         className={`h-[30px] w-[30px] rounded-full ${
-                            currentDirection === '"SOUTH"' ? "bg-green-600" : "bg-red-600"
+                            currentDirection === '"SOUTH"' && maxCars > 0 ? "bg-green-600" : "bg-red-600"
                         }`}
                     ></div>
                 </div>
