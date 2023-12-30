@@ -1,0 +1,13 @@
+services:
+  bridgeproblem_backend:
+    container_name: bridgeproblem_backend
+    image: marcinbator/bridgeproblem_backend
+    ports:
+      - "8080:8080"
+  bridgeproblem_frontend:
+    container_name: bridgeproblem_frontend
+    image: marcinbator/bridgeproblem_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - bridgeproblem_backend
