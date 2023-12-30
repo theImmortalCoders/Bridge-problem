@@ -14,7 +14,6 @@ import java.util.concurrent.Executors;
 
 @Service
 public class BridgeService {
-    @Setter
     @Getter
     private int maxCarsAmount = 2;
     @Getter
@@ -43,8 +42,14 @@ public class BridgeService {
                 .filter(c -> c.getState().equals(State.PROCESSED))
                 .filter(c -> System.currentTimeMillis() - c.getProcessedTimeStamp() > 10000)
                 .toList();
-        if (toRemove.size() > 0)
+        if (!toRemove.isEmpty())
             cars.removeAll(toRemove);
+    }
+
+    public void setMaxCarsAmount(int maxCarsAmount) {
+        this.maxCarsAmount = maxCarsAmount;
+        executorService.execute(() -> processQueue(northQueue));
+        executorService.execute(() -> processQueue(southQueue));
     }
 
     private synchronized void processQueue(Queue<Car> queue) {
@@ -62,7 +67,7 @@ public class BridgeService {
         try {
             Thread.sleep(currentCar.getProcessingTime());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         currentCar.setState(State.PROCESSED);
         currentCar.setProcessedTimeStamp(System.currentTimeMillis());

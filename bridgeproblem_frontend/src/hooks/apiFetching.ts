@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Car {
   name: string;
@@ -22,25 +22,25 @@ export const useApiFetching = () => {
       const response = await fetch("http://localhost:8080/api/cars");
       const carData = await response.json();
       setCarData(carData);
-
       const waitingSouthCars = carData.filter(
-        (car: Car) => car.state === "WAITING" && car.source === "SOUTH"
+        (car: Car) => car.state === "WAITING" && car.source === "SOUTH",
       );
 
       const waitingNorthCars = carData.filter(
-        (car: Car) => car.state === "WAITING" && car.source === "NORTH"
+        (car: Car) => car.state === "WAITING" && car.source === "NORTH",
       );
       const processingCars = carData.filter(
-        (car: Car) => car.state === "PROCESSING"
+        (car: Car) => car.state === "PROCESSING",
       );
 
       const processedSouthCars = carData.filter(
-        (car: Car) => car.state === "PROCESSED" && car.source === "SOUTH"
+        (car: Car) => car.state === "PROCESSED" && car.source === "SOUTH",
       );
       const processedNorthCars = carData.filter(
-        (car: Car) => car.state === "PROCESSED" && car.source === "NORTH"
+        (car: Car) => car.state === "PROCESSED" && car.source === "NORTH",
       );
-
+      await fetchCurrentDirection();
+      await fetchCurrentCarsAmount();
       setWaitingSouthCars(waitingSouthCars);
       setWaitingNorthCars(waitingNorthCars);
       setProcessingCars(processingCars);
@@ -76,8 +76,6 @@ export const useApiFetching = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchData();
-      fetchCurrentDirection();
-      fetchCurrentCarsAmount();
     }, 10);
 
     return () => clearInterval(intervalId);
