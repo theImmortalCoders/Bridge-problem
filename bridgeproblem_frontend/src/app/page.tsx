@@ -43,7 +43,7 @@ const Home: React.FC = () => {
   };
 
   const handleDecreaseSetMaxCars = () => {
-    if (maxCars > 0) {
+    if (maxCars > 1) {
       setCarsAmount(maxCars - 1);
       setMaxCarsAmount(maxCars - 1);
     }
