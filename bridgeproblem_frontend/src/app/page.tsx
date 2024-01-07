@@ -26,13 +26,13 @@ const Home: React.FC = () => {
   const [maxCarsAmount, setMaxCarsAmount] = useState<number | null>(null);
 
   const handleAddCarNorth = () => {
-    const generatedTravelTime = Math.floor(Math.random() * 10) + 1;
+    const generatedTravelTime = Math.floor(Math.random() * 6) + 4;
     handleAddCar("NORTH", generatedTravelTime);
     fetchData();
   };
 
   const handleAddCarSouth = () => {
-    const generatedTravelTime = Math.floor(Math.random() * 5) + 1;
+    const generatedTravelTime = Math.floor(Math.random() * 6) + 4;
     handleAddCar("SOUTH", generatedTravelTime);
     fetchData();
   };

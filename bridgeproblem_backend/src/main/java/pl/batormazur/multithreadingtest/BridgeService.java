@@ -47,11 +47,12 @@ public class BridgeService {
         }
     }
     private synchronized void processQueue(Queue<Car> queue) {
+        System.out.println(maxCarsAmount);
         for (int i = 0; i < maxCarsAmount && !queue.isEmpty(); i++) {
             var currentCar = queue.remove();
             if (currentCar.getState() == State.PROCESSED) continue;
             crossBridge(currentCar);
-            notifyAll();
+            //notifyAll();
         }
     }
     private synchronized void crossBridge(Car currentCar) {
