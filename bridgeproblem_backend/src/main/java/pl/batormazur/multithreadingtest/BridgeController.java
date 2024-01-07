@@ -47,5 +47,6 @@ public class BridgeController {
     @Scheduled(fixedDelay = 100)
     public void deleteProcessed() {
         bridgeService.deleteProcessed();
+        bridgeService.runThreads();
     }
 }
