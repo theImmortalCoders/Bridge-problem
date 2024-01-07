@@ -7,6 +7,7 @@ import pl.batormazur.multithreadingtest.entity.Source;
 import pl.batormazur.multithreadingtest.entity.State;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,20 +27,17 @@ class BridgeServiceTest {
     }
 
     @Test
-    void shouldProcessCarsBy2N() {
+    void shouldProcessCarsBy2N() throws InterruptedException {
         int northCarsCount = 3;
         int southCarsCount = 3;
         List<Car> cars = createCars(northCarsCount, southCarsCount);
         cars.forEach(bridgeService::addToQueue);
         long startTimeMillis = System.currentTimeMillis();
-        List<Car> processed = new ArrayList<>();
         while (System.currentTimeMillis() - startTimeMillis < 6100) {
-            bridgeService.getCars()
-                    .stream()
-                    .filter(c -> c.getState().equals(State.PROCESSED))
-                    .filter(c -> !processed.contains(c))
-                    .forEach(processed::add);
+            bridgeService.runThreads();
         }
+        List<Car> processed = new ArrayList<>(bridgeService.getCars().stream().toList());
+        processed.sort(Comparator.comparingLong(Car::getProcessedTimeStamp));
         assertEquals(cars.get(0), processed.get(0));
         assertEquals(cars.get(1), processed.get(1));
         assertEquals(cars.get(3), processed.get(2));
