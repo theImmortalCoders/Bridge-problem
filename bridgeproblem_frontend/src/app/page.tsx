@@ -108,14 +108,17 @@ const Home: React.FC = () => {
                 ))}
               </div>
               <div className=" h-[5vh] w-full flex flex-row items-center justify-end">
-                {waitingNorthCars.slice(0, 7).map((car, index) => (
-                  <CarComponent
-                    key={index}
-                    index={index}
-                    source={car.source}
-                    processingTime={car.processingTime}
-                  />
-                ))}
+                {waitingNorthCars
+                  .slice(0, 7)
+                  .reverse()
+                  .map((car, index) => (
+                    <CarComponent
+                      key={index}
+                      index={index}
+                      source={car.source}
+                      processingTime={car.processingTime}
+                    />
+                  ))}
               </div>
             </div>
             <div className="flex items-center justify-center h-full w-full">
@@ -132,14 +135,17 @@ const Home: React.FC = () => {
             </div>
             <div className="flex flex-col items-center">
               <div className="h-[5vh] w-full mb-3 flex flex-row-reverse items-center justify-end">
-                {waitingSouthCars.slice(0, 7).map((car, index) => (
-                  <CarComponent
-                    key={index}
-                    index={index}
-                    source={car.source}
-                    processingTime={car.processingTime}
-                  />
-                ))}
+                {waitingSouthCars
+                  .slice(0, 7)
+                  .reverse()
+                  .map((car, index) => (
+                    <CarComponent
+                      key={index}
+                      index={index}
+                      source={car.source}
+                      processingTime={car.processingTime}
+                    />
+                  ))}
               </div>
               <div className=" h-[5vh] w-full flex flex-row items-center justify-end">
                 {processedNorthCars.slice(-6).map((car, index) => (
