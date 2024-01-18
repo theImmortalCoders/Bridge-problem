@@ -95,6 +95,7 @@ const Home: React.FC = () => {
                     ))}
                 </div>
               </div>
+              Test
               <div className="flex-grow w-[44vw] px-8">
                 <div className="flex items-center justify-center h-full w-full">
                   <div
