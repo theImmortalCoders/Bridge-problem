@@ -1,0 +1,25 @@
+2.1. Using Docker
+ 1. Navigate to main directory of a project (the one with docker-compose.yml file) using 
+  Terminal in Linux or CMD in Windows.
+ 2. Pull frontend and backend images from Dockerhub by typing command:
+  docker pull marcinbator/bridgeproblem_frontend
+  docker pull marcinbator/bridgeproblem_backend
+ 3. Run containers with settings from docker-compose.yml:
+  docker-compose up
+  By default, the backend of the project will listen on port 8080, and the frontend will listen 
+  on port 3000. If you want to change those values, you can do it by editing them in dockercompose.yml file. Make sure that the ports are    not occupied by other processes.
+ 4. To see the OPENAPI documentation of the backend endpoints, open 
+  http://localhost:8080/api/docs.html in web browser.
+ 5. To open the application, open http://localhost:3000 in web browser. If no cars appear 
+  after adding them, you have to refresh cache of your browser (Ctrl+F5 in Chrome).
+
+2.2. Using IDE
+ 2.2.1. Backend
+  You will need IntelliJ IDEA or other IDE that can run Spring Boot project from Maven. Open the 
+  bridgeproblem_backend folder in IDE and run the BridgeProblemBackendApplication class. The 
+  service will listen on port 8080.
+ 2.2.2. Frontend
+  You need to have installed Node 20 on your machine or environment. Navigate to 
+  bridgeproblem_frontend directory and run the command:
+  npm run dev
+  The service will listen on port 3000.
